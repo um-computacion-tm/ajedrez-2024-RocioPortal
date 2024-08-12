@@ -1,0 +1,17 @@
+[run]
+source = main
+omit =
+    venv/*
+    */test/*
+    */__init__.py
+[report]
+exclude_lines =
+    pragma: no cover
+    def __repr__
+    def setUp
+    def test_
+    return raw_input
+    print
+    if __name__ == "__main__":
+    def suite
+    __str__
