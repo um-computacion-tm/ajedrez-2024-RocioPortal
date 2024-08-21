@@ -12,7 +12,7 @@ class Board:
             col= []
             for _ in range (8):
                 col.append(None)
-            self.positions.append(col)
+            self.__positions__.append(col)
 
     #torres
         self.__positions__ [0] [0] = Rook("BLACK")    

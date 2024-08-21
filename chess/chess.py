@@ -2,8 +2,8 @@ from chess.board import Board
 
 class Chess:
     def __init__(self):
-        self.board = Board()
-        self.turn = "WHITE"  #inician las blancas
+        self.__board__ = Board()
+        self.__turn__ = "WHITE"  #inician las blancas
 
 
     def is_playing(self):
