@@ -1,4 +1,4 @@
-from pieces import Piece
+from chess.pieces import Piece
 
 class Rook(Piece):
     def is_valid_move(self, from_row, from_col, to_row, to_col, board):

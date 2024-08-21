@@ -1,9 +1,9 @@
-from rook import Rook
-from knight import Knight
-from bishop import Bishop
-from queen import Queen
-from king import King
-from pawn import Pawn
+from chess.rook import Rook
+from chess.knight import Knight
+from chess.bishop import Bishop
+from chess.queen import Queen
+from chess.king import King
+from chess.pawn import Pawn
 
 class Board:    
     def __init__(self):

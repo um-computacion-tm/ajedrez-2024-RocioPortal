@@ -1,13 +1,14 @@
-from chess import Chess
+from chess.chess import Chess
 
 def main():
     chess = Chess()   
-    while True:       
+    while  chess.is_playing:       
         play(chess)
 
 def play (chess):
     try:
-        print(chess.show_board()) 
+        #print(chess.show_board()) 
+        print("turn: ", chess.turn)
         from_row= int(input("Desde fila: "))
         from_col= int(input("Desde columna: "))
         to_row= int(input("A fila: "))
@@ -19,9 +20,8 @@ def play (chess):
             to_row,
             to_col
         )
-        
+
         # Validar que las coordenadas están dentro del rango permitido
-            
         if not (0 <= from_row < 8) or not (0 <= from_col < 8):
                 raise ValueError("Las coordenadas de inicio están fuera del rango permitido.")
         if not (0 <= to_row < 8) or not (0 <= to_col < 8):
@@ -37,7 +37,7 @@ def play (chess):
            (self.__turn__ == "BLACK" and piece.color == "WHITE"):
             raise ValueError("No es tu turno.")
 
-
+#las excepciones se ponen de la mas particular a la mas general
     
     except ValueError as e:
         print(f"Error: {e}")
