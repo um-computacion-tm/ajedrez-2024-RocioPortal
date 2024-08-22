@@ -16,3 +16,11 @@ class Pawn(Piece):
                     board.get_piece(to_row, to_col) is None and
                     board.get_piece(from_row + direction, to_col) is None):
                 return True
+            
+        # Movimiento en diagonal
+        if abs(from_col - to_col) == 1 and (to_row - from_row) == direction:
+            target_piece = board.get_piece(to_row, to_col)
+            if target_piece is not None and target_piece.color != self.color:
+                return True
+        
+        return False
