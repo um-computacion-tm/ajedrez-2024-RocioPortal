@@ -1,6 +1,11 @@
 from chess.pieces import Piece
 
 class Rook(Piece):
+    white_str= ""
+    black_str= ""
+
+
+
     def is_valid_move(self, from_row, from_col, to_row, to_col, board):
         # Verifica si el movimiento es válido para una torre ya que si ambos son verdaderos significa que la fila y la columna 
         #estan cambiando, lo que indica un movimiento diagonal
