@@ -45,3 +45,14 @@ class TestBoard(unittest.TestCase):
         pawn = self.board.get_piece(6, 0)
         self.assertIsInstance(pawn, Pawn)
         self.assertEqual(pawn.get_color, "WHITE")
+
+    def test_set_piece(self):
+        # Verificar que se puede colocar una pieza en una posición específica
+        new_pawn = Pawn("BLACK")
+        self.board.set_piece(4, 4, new_pawn)
+        piece = self.board.get_piece(4, 4)
+        self.assertIsInstance(piece, Pawn)
+        self.assertEqual(piece.get_color, "BLACK")
+
+if __name__ == '__main__':
+    unittest.main()
