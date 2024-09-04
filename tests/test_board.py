@@ -11,14 +11,14 @@ class TestBoard(unittest.TestCase):
         self.assertEqual(
             str(board),
             (
-                "♜♞♝♛♚♝♞♜\n"
+                "♖♘♗♕♔♗♘♖\n"    
+                "♙♙♙♙♙♙♙♙\n"          
+                "        \n"
+                "        \n"            
+                "        \n"
+                "        \n"
                 "♟♟♟♟♟♟♟♟\n"
-                "        \n"
-                "        \n"
-                "        \n"
-                "        \n"
-                "♙♙♙♙♙♙♙♙\n"
-                "♖♘♗♕♔♗♘♖\n"
+                "♜♞♝♛♚♝♞♜\n"
             )
         )
 

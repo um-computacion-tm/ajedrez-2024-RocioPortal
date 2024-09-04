@@ -4,9 +4,9 @@ class Bishop(Piece):
 
     def __str__(self):  #devuelve el simbolo de la torre segun el color de la pieza
       if self.__color__ == "WHITE":
-          return "♗"
+          return "♝"
       else:
-         return "♝"
+         return "♗"
     
     def is_valid_move(self, board, from_row, from_col, to_row, to_col):
         # El movimiento del alfil debe ser diagonal: la diferencia entre las filas y las columnas debe ser igual
