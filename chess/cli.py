@@ -1,4 +1,5 @@
 from chess.chess import Chess
+from exceptions import InvalidMove, InvalidTurn, EmptyPosition
 
 def main():
     chess = Chess()   
@@ -21,30 +22,12 @@ def play (chess):
             to_col
         )
 
-        # Validar que las coordenadas están dentro del rango permitido
-        if not (0 <= from_row < 8) or not (0 <= from_col < 8):
-                raise ValueError("Las coordenadas de inicio están fuera del rango permitido.")
-        if not (0 <= to_row < 8) or not (0 <= to_col < 8):
-                raise ValueError("Las coordenadas de destino están fuera del rango permitido.")
-    
-        #Obtener la pieza en la posición de origen y verificar que existe
-        piece = self.__board__.get_piece(from_row, from_col)        
-        if piece is None:
-            raise ValueError("No hay una pieza en esa posición.")
-        
-        #Verificar el turno
-        if (self.__turn__ == "WHITE" and piece.color == "BLACK") or \
-           (self.__turn__ == "BLACK" and piece.color == "WHITE"):
-            raise ValueError("No es tu turno.")
-
 #las excepciones se ponen de la mas particular a la mas general
     
-    except ValueError as e:
-        print(f"Error: {e}")
-        return False
-    
+    except InvalidMove as e:
+        print(e)
     except Exception as e:
-        print("error")
+        print("error", e)
 
 
 
