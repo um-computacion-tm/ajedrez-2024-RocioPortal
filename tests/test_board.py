@@ -2,6 +2,7 @@ import unittest
 from chess.board import Board
 from chess.rook import Rook
 from chess.pawn import Pawn
+from chess.exceptions import OutOfBoard
 
 
 class TestBoard(unittest.TestCase):
@@ -46,13 +47,47 @@ class TestBoard(unittest.TestCase):
         self.assertIsInstance(pawn, Pawn)
         self.assertEqual(pawn.get_color, "WHITE")
 
+        pawn = self.board.get_piece(1, 0)
+        self.assertIsInstance(pawn, Pawn)
+        self.assertEqual(pawn.get_color, "BLACK")
+
     def test_set_piece(self):
         # Verificar que se puede colocar una pieza en una posición específica
-        new_pawn = Pawn("BLACK")
+        new_pawn = Pawn("BLACK", self.board)
         self.board.set_piece(4, 4, new_pawn)
         piece = self.board.get_piece(4, 4)
         self.assertIsInstance(piece, Pawn)
         self.assertEqual(piece.get_color, "BLACK")
+
+    def test_move(self):
+        board = Board(for_test=True)
+        rook = Rook(color='BLACK', board=board)
+        board.set_piece(0, 0, rook)
+
+        board.move(
+            from_row=0,
+            from_col=0,
+            to_row=0,
+            to_col=1,
+        )
+
+        self.assertIsInstance(
+            board.get_piece(0, 1),
+            Rook,
+        )
+        self.assertEqual(
+            str(board),
+            (
+                " ♖      \n"
+                "        \n"
+                "        \n"
+                "        \n"
+                "        \n"
+                "        \n"
+                "        \n"
+                "        \n"
+            )
+        )
 
 if __name__ == '__main__':
     unittest.main()
