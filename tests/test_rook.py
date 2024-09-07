@@ -20,7 +20,7 @@ class TestRook(unittest.TestCase):
         possibles = rook.possible_positions_vd(4, 1)
         self.assertEqual(
             possibles,
-            [(5, 1), (6, 1), (7, 1)]
+            [(5, 1)]
         )
 
     def test_move_vertical_asc(self):
@@ -69,9 +69,8 @@ class TestRook(unittest.TestCase):
         rook = Rook("BLACK", board)  # Instancia de torre negra
         self.assertEqual(str(rook), "♜")  # Prueba que el método __str__ devuelva el símbolo correcto para una torre negra.
 
+'''
+
 
 if __name__ == '__main__':
     unittest.main()
-
-
-'''

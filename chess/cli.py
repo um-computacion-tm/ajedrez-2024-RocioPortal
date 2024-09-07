@@ -1,5 +1,5 @@
 from chess.chess import Chess
-from exceptions import InvalidMove, InvalidTurn, EmptyPosition
+from chess.exceptions import InvalidMove, InvalidTurn, EmptyPosition
 
 def main():
     chess = Chess()   
@@ -8,6 +8,7 @@ def main():
 
 def play (chess):
     try:
+
         #print(chess.show_board()) 
         print("turn: ", chess.turn)
         from_row= int(input("Desde fila: "))

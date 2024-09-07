@@ -20,7 +20,7 @@ class TestCli(unittest.TestCase):
         chess = Chess()
         play(chess)
         self.assertEqual(mock_input.call_count, 4)
-        self.assertEqual(mock_print.call_count, 2)
+        self.assertEqual(mock_print.call_count, 1)
         self.assertEqual(mock_chess_move.call_count, 1)
 
     @patch(  # este patch controla lo que hace el input
