@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## [0.18] - 10 / 09 / 2024 - Exceptions
+
+### Added
+
+- Movimientos horizontales de la torre 
+
+
 ## [0.17] - 04 / 09 / 2024 - Exceptions
 
 ### Added
