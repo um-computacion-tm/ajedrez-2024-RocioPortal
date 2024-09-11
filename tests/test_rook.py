@@ -54,6 +54,37 @@ class TestRook(unittest.TestCase):
             [(5, 1), (6, 1)]
         )
 
+    def test_move_horizontal_left(self):
+        board = Board()
+        rook = Rook("WHITE", board)
+        possibles = rook.possible_positions_hl(4, 4)
+        self.assertEqual(
+            possibles,
+            [(4, 3), (4, 2), (4, 1), (4, 0)]
+        )
+
+    def test_move_horizontal_left_with_own_piece(self):
+        board = Board()
+        board.set_piece(4, 2, Pawn("WHITE", board))
+        rook = Rook("WHITE", board)
+        board.set_piece(4, 4, rook)
+        possibles = rook.possible_positions_hl(4, 4)
+        self.assertEqual(
+            possibles,
+            [(4, 3)]
+        )
+
+    def test_move_horizontal_left_with_not_own_piece(self):
+        board = Board()
+        board.set_piece(4, 2, Pawn("BLACK", board))
+        rook = Rook("WHITE", board)
+        board.set_piece(4, 4, rook)
+        possibles = rook.possible_positions_hl(4, 4)
+        self.assertEqual(
+            possibles,
+            [(4, 3), (4, 2)]
+        )
+
 
 
 '''
