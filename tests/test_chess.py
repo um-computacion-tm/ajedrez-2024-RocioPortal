@@ -34,6 +34,5 @@ class TestChess(unittest.TestCase):
         )
         self.assertEqual(board_str, expected_str)
 
-
 if __name__ == '__main__':
     unittest.main()
