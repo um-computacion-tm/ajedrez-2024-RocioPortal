@@ -58,3 +58,32 @@ class Piece:
             possibles.append((row, next_col))
         return possibles
     
+# Movimientos diagonales (usados por el alfil y reina)
+
+    def possible_positions_dad(self, row, col):  # Diagonal ascendente derecha
+        possibles = []
+        next_row, next_col = row - 1, col + 1
+        while next_row >= 0 and next_col < 8:
+            other_piece = self.__board__.get_piece(next_row, next_col)
+            if other_piece is not None:
+                if other_piece.__color__ != self.__color__:
+                    possibles.append((next_row, next_col))
+                break
+            possibles.append((next_row, next_col))
+            next_row -= 1
+            next_col += 1
+        return possibles
+    
+    def possible_positions_dai(self, row, col):  # Diagonal ascendente izquierda
+        possibles = []
+        next_row, next_col = row - 1, col - 1
+        while next_row >= 0 and next_col >= 0:
+            other_piece = self.__board__.get_piece(next_row, next_col)
+            if other_piece is not None:
+                if other_piece.__color__ != self.__color__:
+                    possibles.append((next_row, next_col))
+                break
+            possibles.append((next_row, next_col))
+            next_row -= 1
+            next_col -= 1
+        return possibles

@@ -116,8 +116,6 @@ class TestRook(unittest.TestCase):
             [(4, 2), (4, 3)]
         )
 
-
-
 '''
 class TestRook(unittest.TestCase):
     
