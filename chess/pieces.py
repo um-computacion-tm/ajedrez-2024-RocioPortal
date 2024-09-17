@@ -87,3 +87,31 @@ class Piece:
             next_row -= 1
             next_col -= 1
         return possibles
+    
+    def possible_positions_ddd(self, row, col):  # Diagonal descendente derecha
+        possibles = []
+        next_row, next_col = row + 1, col + 1
+        while next_row < 8 and next_col < 8:
+            other_piece = self.__board__.get_piece(next_row, next_col)
+            if other_piece is not None:
+                if other_piece.__color__ != self.__color__:
+                    possibles.append((next_row, next_col))
+                break
+            possibles.append((next_row, next_col))
+            next_row += 1
+            next_col += 1
+        return possibles
+
+    def possible_positions_ddi(self, row, col):  # Diagonal descendente izquierda
+        possibles = []
+        next_row, next_col = row + 1, col - 1
+        while next_row < 8 and next_col >= 0:
+            other_piece = self.__board__.get_piece(next_row, next_col)
+            if other_piece is not None:
+                if other_piece.__color__ != self.__color__:
+                    possibles.append((next_row, next_col))
+                break
+            possibles.append((next_row, next_col))
+            next_row += 1
+            next_col -= 1
+        return possibles
