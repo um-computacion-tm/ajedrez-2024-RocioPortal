@@ -14,122 +14,47 @@ class TestRook(unittest.TestCase):
             "♜",
         )
 
-    def test_move_vertical_desc(self):
-        board = Board()
-        rook = Rook("WHITE", board)
-        possibles = rook.possible_positions_vd(4, 1)
-        self.assertEqual(
-            possibles,
-            [(5, 1)]
-        )
+    def setUp(self):
+        self.board = Board(for_test=True)
 
-    def test_move_vertical_asc(self):
-        board = Board()
-        rook = Rook("WHITE", board)
-        possibles = rook.possible_positions_va(4, 1)
-        self.assertEqual(
-            possibles,
-            [(3, 1), (2, 1), (1, 1), (0, 1)]
-        )
+    def test_rook_move_vertical(self):
+        rook = Rook("WHITE", self.board)
+        self.board.set_piece(4, 4, rook)
+        is_valid = rook.valid_positions(4, 4, 7, 4)
+        self.assertTrue(is_valid)
 
-    def test_move_vertical_desc_with_own_piece(self):
-        board = Board()
-        board.set_piece(6, 1, Pawn("WHITE", board))
-        rook = Rook("WHITE", board)
-        board.set_piece(4, 1, rook)
-        possibles = rook.possible_positions_vd(4, 1)
-        self.assertEqual(
-            possibles,
-            [(5, 1)]
-        )
+    def test_rook_move_horizontal(self):
+        rook = Rook("WHITE", self.board)
+        self.board.set_piece(4, 4, rook)
+        is_valid = rook.valid_positions(4, 4, 4, 7)
+        self.assertTrue(is_valid)
 
-    def test_move_vertical_desc_with_not_own_piece(self):
-        board = Board()
-        board.set_piece(6, 1, Pawn("BLACK", board))
-        rook = Rook("WHITE", board)
-        board.set_piece(4, 1, rook)
-        possibles = rook.possible_positions_vd(4, 1)
-        self.assertEqual(
-            possibles,
-            [(5, 1), (6, 1)]
-        )
+    def test_rook_blocked_by_own_piece(self):
+        rook = Rook("WHITE", self.board)
+        self.board.set_piece(4, 4, rook)
+        self.board.set_piece(5, 4, Rook("WHITE", self.board))
+        is_valid = rook.valid_positions(4, 4, 7, 4)
+        self.assertFalse(is_valid)
 
-    def test_move_horizontal_left(self):
-        board = Board()
-        rook = Rook("WHITE", board)
-        possibles = rook.possible_positions_hl(4, 4)
-        self.assertEqual(
-            possibles,
-            [(4, 3), (4, 2), (4, 1), (4, 0)]
-        )
+    def test_rook_capture_enemy(self):
+        rook = Rook("WHITE", self.board)
+        self.board.set_piece(4, 4, rook)
+        self.board.set_piece(5, 4, Rook("BLACK", self.board))
+        is_valid = rook.valid_positions(4, 4, 5, 4)
+        self.assertTrue(is_valid)
 
-    def test_move_horizontal_left_with_own_piece(self):
-        board = Board()
-        board.set_piece(4, 2, Pawn("WHITE", board))
-        rook = Rook("WHITE", board)
-        board.set_piece(4, 4, rook)
-        possibles = rook.possible_positions_hl(4, 4)
-        self.assertEqual(
-            possibles,
-            [(4, 3)]
-        )
+    def test_rook_blocked_by_enemy_in_path(self):
+        rook = Rook("WHITE", self.board)
+        self.board.set_piece(4, 4, rook)
+        self.board.set_piece(5, 4, Rook("BLACK", self.board))  # Pieza enemiga en el camino
+        is_valid = rook.valid_positions(4, 4, 6, 4)
+        self.assertFalse(is_valid)  # El movimiento debería ser inválido
 
-    def test_move_horizontal_left_with_not_own_piece(self):
-        board = Board()
-        board.set_piece(4, 2, Pawn("BLACK", board))
-        rook = Rook("WHITE", board)
-        board.set_piece(4, 4, rook)
-        possibles = rook.possible_positions_hl(4, 4)
-        self.assertEqual(
-            possibles,
-            [(4, 3), (4, 2)]
-        )
-
-    def test_move_horizontal_right(self):
-        board = Board()
-        rook = Rook("WHITE", board)
-        possibles = rook.possible_positions_hr(4, 1)
-        self.assertEqual(
-            possibles,
-            [(4, 2), (4, 3), (4, 4), (4, 5), (4, 6), (4, 7)]
-        )
-
-    def test_move_horizontal_right_with_own_piece(self):
-        board = Board()
-        board.set_piece(4, 3, Pawn("WHITE", board))
-        rook = Rook("WHITE", board)
-        board.set_piece(4, 1, rook)
-        possibles = rook.possible_positions_hr(4, 1)
-        self.assertEqual(
-            possibles,
-            [(4, 2)]
-        )
-    
-    def test_move_horizontal_right_with_not_own_piece(self):
-        board = Board()
-        board.set_piece(4, 3, Pawn("BLACK", board))
-        rook = Rook("WHITE", board)
-        board.set_piece(4, 1, rook)
-        possibles = rook.possible_positions_hr(4, 1)
-        self.assertEqual(
-            possibles,
-            [(4, 2), (4, 3)]
-        )
-
-'''
-class TestRook(unittest.TestCase):
-    
-    def test_rook_white_str(self):
-        board = Board()
-        rook = Rook("WHITE", board)  # Instancia de torre blanca
-        self.assertEqual(str(rook), "♖")  # Prueba que el método __str__ devuelva el símbolo correcto para una torre blanca.
-
-    def test_rook_black_str(self):
-        board = Board()
-        rook = Rook("BLACK", board)  # Instancia de torre negra
-        self.assertEqual(str(rook), "♜")  # Prueba que el método __str__ devuelva el símbolo correcto para una torre negra.
-
-'''
+    def test_rook_invalid_diagonal_move(self):
+        rook = Rook("WHITE", self.board)
+        self.board.set_piece(4, 4, rook)
+        is_valid = rook.valid_positions(4, 4, 5, 5)  # Intentar moverse en diagonal
+        self.assertFalse(is_valid)  # El movimiento debería ser inválido
 
 
 if __name__ == '__main__':
