@@ -12,106 +12,25 @@ class Piece:
     @property
     def get_color (self):
         return self.__color__
-    
 
-#movimientos verticales y horizontales
 
-    def possible_positions_vd(self, row, col):  #movimiento vertical descendente
+    def possible_moves_general(self, row, col, directions, single_step=False):
         possibles = []
-        for next_row in range(row + 1, 8):
-            # que la celda que sigue no este ocupada..
-            other_piece = self.__board__.get_piece(next_row, col)
-            if other_piece is not None:
-                if other_piece.__color__ != self.__color__:
-                    possibles.append((next_row, col))
-                break
-            possibles.append((next_row, col))
-        return possibles
+        for row_dir, col_dir in directions:
+            next_row, next_col = row + row_dir, col + col_dir
+            while 0 <= next_row < 8 and 0 <= next_col < 8:
+                other_piece = self.__board__.get_piece(next_row, next_col)
+                if other_piece is not None:
+                    if other_piece.get_color != self.get_color:
+                        possibles.append((next_row, next_col))  # Puede capturar
+                    break  # Detener si hay una pieza
+                possibles.append((next_row, next_col))
 
-    def possible_positions_va(self, row, col): #movimiento vertical ascendente
-        possibles = []
-        for next_row in range(row - 1, -1, -1):
-            possibles.append((next_row, col))
-        return possibles
-    
-   
-    def possible_positions_hl(self, row, col):  #movimiento horizontal hacia la izquierda 
-        possibles = []
-        for next_col in range(col - 1, -1, -1):
-            other_piece = self.__board__.get_piece(row, next_col)
-            if other_piece is not None:
-                if other_piece.__color__ != self.__color__:
-                    possibles.append((row, next_col))
-                break
-            possibles.append((row, next_col))
-        return possibles
-    
-    
-    def possible_positions_hr(self, row, col): # Movimiento horizontal hacia la derecha
-        possibles = []
-        for next_col in range(col + 1, 8):
-            other_piece = self.__board__.get_piece(row, next_col)
-            if other_piece is not None:
-                if other_piece.__color__ != self.__color__:
-                    possibles.append((row, next_col))
-                break
-            possibles.append((row, next_col))
-        return possibles
-    
-# Movimientos diagonales (usados por el alfil y reina)
+                # Si `single_step` es True, solo avanzamos una casilla
+                if single_step:
+                    break
 
-    def possible_positions_dad(self, row, col):  # Diagonal ascendente derecha
-        possibles = []
-        next_row, next_col = row - 1, col + 1
-        while next_row >= 0 and next_col < 8:
-            other_piece = self.__board__.get_piece(next_row, next_col)
-            if other_piece is not None:
-                if other_piece.__color__ != self.__color__:
-                    possibles.append((next_row, next_col))
-                break
-            possibles.append((next_row, next_col))
-            next_row -= 1
-            next_col += 1
-        return possibles
-    
-    def possible_positions_dai(self, row, col):  # Diagonal ascendente izquierda
-        possibles = []
-        next_row, next_col = row - 1, col - 1
-        while next_row >= 0 and next_col >= 0:
-            other_piece = self.__board__.get_piece(next_row, next_col)
-            if other_piece is not None:
-                if other_piece.__color__ != self.__color__:
-                    possibles.append((next_row, next_col))
-                break
-            possibles.append((next_row, next_col))
-            next_row -= 1
-            next_col -= 1
-        return possibles
-    
-    def possible_positions_ddd(self, row, col):  # Diagonal descendente derecha
-        possibles = []
-        next_row, next_col = row + 1, col + 1
-        while next_row < 8 and next_col < 8:
-            other_piece = self.__board__.get_piece(next_row, next_col)
-            if other_piece is not None:
-                if other_piece.__color__ != self.__color__:
-                    possibles.append((next_row, next_col))
-                break
-            possibles.append((next_row, next_col))
-            next_row += 1
-            next_col += 1
-        return possibles
-
-    def possible_positions_ddi(self, row, col):  # Diagonal descendente izquierda
-        possibles = []
-        next_row, next_col = row + 1, col - 1
-        while next_row < 8 and next_col >= 0:
-            other_piece = self.__board__.get_piece(next_row, next_col)
-            if other_piece is not None:
-                if other_piece.__color__ != self.__color__:
-                    possibles.append((next_row, next_col))
-                break
-            possibles.append((next_row, next_col))
-            next_row += 1
-            next_col -= 1
+                # Continuar en la misma dirección
+                next_row += row_dir
+                next_col += col_dir
         return possibles
