@@ -1,11 +1,18 @@
 
-
 import unittest
 from chess.pawn import Pawn
 from chess.board import Board
 
 
 class TestPawn(unittest.TestCase):
+
+    def test_str(self):
+        board = Board()
+        pawn = Pawn("WHITE", board)
+        self.assertEqual(
+            str(pawn),
+            "♟",
+        )
 
     def test_initial_black(self):
         board = Board(for_test = True)
