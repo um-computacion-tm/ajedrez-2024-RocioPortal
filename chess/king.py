@@ -1,13 +1,9 @@
 from chess.pieces import Piece
 
 class King(Piece):
-    ...    
-
-    def __str__(self):  #devuelve el simbolo de la torre segun el color de la pieza
-      if self.__color__ == "WHITE":
-          return "♚"
-      else:
-         return "♔" 
+    
+    white_str = "♚"  
+    black_str = "♔"
       
     def valid_positions(self, from_row, from_col, to_row, to_col):
         # El rey puede moverse una casilla en cualquier dirección (ortogonal o diagonal)

@@ -1,14 +1,10 @@
 from chess.pieces import Piece
 
 class Pawn(Piece):
-
-    def __str__(self):  #devuelve el simbolo de la torre segun el color de la pieza
-      if self.__color__ == "WHITE":
-          return "♟"
-      else:
-         return "♙" 
     
-
+    white_str = "♟"  
+    black_str = "♙"
+    
     def get_possible_positions(self, from_row, from_col):
         possibles = self.get_possible_positions_move(
             from_row,
