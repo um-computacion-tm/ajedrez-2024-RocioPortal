@@ -27,12 +27,14 @@ def play (chess):
     
     except InvalidMove as e:
         print(e)
+    except InvalidTurn as e:
+        print(e)
     except Exception as e:
         print("error", e)
 
 
 
-if __name__ == '__main__':
-    main()
+# if __name__ == '__main__':
+#      main()
 
     

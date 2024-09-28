@@ -17,11 +17,11 @@ class Chess:
         to_row,
         to_col,
     ):
-        # validate coords
+       # validate coords
         piece = self.__board__.get_piece(from_row, from_col)
         if not piece:
             raise EmptyPosition()
-        if not piece.get_color() == self.__turn__:
+        if not piece.get_color == self.__turn__:  
             raise InvalidTurn()
         if not piece.valid_positions(from_row, from_col, to_row, to_col):
             raise InvalidMove()
@@ -40,3 +40,6 @@ class Chess:
             self.__turn__ = "BLACK"
         else:
             self.__turn__ = "WHITE"
+
+    def get_board(self):
+        return self.__board__

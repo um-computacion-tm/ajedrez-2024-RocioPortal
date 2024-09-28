@@ -2,6 +2,7 @@ import unittest
 from chess.chess import Chess
 from chess.pawn import Pawn
 from chess.exceptions import InvalidMove, InvalidTurn, EmptyPosition
+from chess.board import Board
 
 class TestChess(unittest.TestCase):
 
@@ -33,6 +34,34 @@ class TestChess(unittest.TestCase):
             "♜♞♝♛♚♝♞♜\n"
         )
         self.assertEqual(board_str, expected_str)
+
+    def test_change_turn(self):
+        # Verificar que el turno cambie después de un movimiento
+        self.game.move(6, 4, 5, 4)  # Mover el peón blanco
+        self.assertEqual(self.game.turn, "BLACK")  # Ahora debe ser el turno de las negras
+
+        self.game.move(1, 4, 2, 4)  # Mover el peón negro
+        self.assertEqual(self.game.turn, "WHITE")  # Ahora debe ser el turno de las blancas
+
+    def test_invalid_turn(self):
+        # Intentar mover una pieza negra en el turno de las blancas
+        with self.assertRaises(InvalidTurn):
+            self.game.move(1, 4, 2, 4)  # Mover un peón negro cuando es turno de las blancas
+
+    def test_invalid_move(self):
+        # Intentar mover un peón blanco dos casillas adelante cuando ya no es el primer movimiento
+        self.game.move(6, 4, 5, 4)  # Primer movimiento válido
+        with self.assertRaises(InvalidMove):
+            self.game.move(5, 4, 3, 4)  # Este movimiento debería ser inválido
+
+    def test_get_board(self):
+        # Verificar que el tablero se obtiene correctamente a través de get_board()
+        board = self.game.get_board()
+        self.assertIsInstance(board, Board)  # Asegura que es una instancia de la clase Board
+
+        #verificar que el tablero contiene piezas en posiciones iniciales
+        self.assertIsNotNone(board.get_piece(0, 0))  # Debería haber una torre negra en la posición (0, 0)
+        self.assertIsNotNone(board.get_piece(7, 0))  # Debería haber una torre blanca en la posición (7, 0)
 
 if __name__ == '__main__':
     unittest.main()
