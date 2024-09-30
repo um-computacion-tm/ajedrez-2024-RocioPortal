@@ -2,6 +2,7 @@ class Piece:
     def __init__(self, color, board):
         self.__color__ = color
         self.__board__ = board
+        self.__king_queen_directions__ = [(-1, -1), (-1, 1), (1, -1), (1, 1), (-1, 0), (1, 0), (0, -1), (0, 1)]
 
     def __str__(self):
         if self.__color__ == "WHITE":
