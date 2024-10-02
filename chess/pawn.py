@@ -1,4 +1,5 @@
 from chess.pieces import Piece
+from chess.queen import Queen
 
 class Pawn(Piece):
     
@@ -40,3 +41,15 @@ class Pawn(Piece):
                     possible_positions.append((next_row, next_col))  # Solo captura si hay una pieza enemiga
 
         return (to_row, to_col) in possible_positions
+    
+    def verify_promote(self, moves):
+          for move in moves:
+               next_row, next_col = move
+               if (self.__color__ == "WHITE" and next_row == 0) or (self.__color__ == "BLACK" and next_row == 7):
+                    self.promote(next_row, next_col)
+     
+    def promote(self, row, col): 
+        self.__board__.set_piece(row, col, Queen(self.__color__, self.__board__))
+        return True #ocurrio el cambio
+
+    

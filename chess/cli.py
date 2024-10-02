@@ -23,6 +23,16 @@ def play (chess):
             to_col
         )
 
+        promotion_happened = chess.move(              
+            from_row,            
+            from_col,
+            to_row,
+            to_col,
+        )
+        
+        if promotion_happened:   #muestra el mensaje de que ha ocurrido el cambio
+            print(f"¡El peón ha sido promovido a reina en la posición: ({to_row}, {to_col})!")
+
 #las excepciones se ponen de la mas particular a la mas general
     
     except InvalidMove as e:
