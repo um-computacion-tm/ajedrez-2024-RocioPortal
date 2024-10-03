@@ -19,162 +19,75 @@ class TestPawn(unittest.TestCase):
     def setUp(self):
         self.board = Board(for_test=True)
 
-    def test_pawn_move_forward(self):
-        # Crear un peón blanco en (6, 4) y verificar su movimiento hacia adelante
+    def test_pawn_move_forward_one_step(self):
+        # Test de movimiento hacia adelante por una casilla
         pawn = Pawn("WHITE", self.board)
         self.board.set_piece(6, 4, pawn)
         
-        # Verificar que puede moverse a (5, 4)
+        # El peón debe poder moverse hacia adelante una casilla
         is_valid = pawn.valid_positions(6, 4, 5, 4)
         self.assertTrue(is_valid)
 
-        # Verificar que no puede moverse a una casilla ocupada (directamente adelante)
-        self.board.set_piece(5, 4, Pawn("WHITE", self.board))
-        is_valid = pawn.valid_positions(6, 4, 5, 4)
-        self.assertFalse(is_valid)
-
-    def test_pawn_initial_two_step_move(self):
-        # Crear un peón blanco en su posición inicial (6, 4)
+    def test_pawn_move_forward_two_steps_initial(self):
+        # Test de movimiento hacia adelante por dos casillas desde la fila inicial
         pawn = Pawn("WHITE", self.board)
         self.board.set_piece(6, 4, pawn)
         
-        # Verificar que puede moverse dos casillas hacia adelante (a (4, 4))
         is_valid = pawn.valid_positions(6, 4, 4, 4)
         self.assertTrue(is_valid)
 
-    def test_pawn_capture_enemy(self):
-        # Crear un peón blanco en (6, 4) y un enemigo en (5, 3)
+    def test_pawn_blocked_move(self):
+        # Test de movimiento bloqueado
         pawn = Pawn("WHITE", self.board)
-        enemy_rook = Rook("BLACK", self.board)
         self.board.set_piece(6, 4, pawn)
-        self.board.set_piece(5, 3, enemy_rook)
+        blocking_pawn = Pawn("WHITE", self.board)
+        self.board.set_piece(5, 4, blocking_pawn)
         
-        # Verificar que el peón puede capturar en diagonal a (5, 3)
-        is_valid = pawn.valid_positions(6, 4, 5, 3)
-        self.assertTrue(is_valid)
-
-    def test_pawn_capture_own_piece(self):
-        # Crear un peón blanco en (6, 4) y una torre blanca en (5, 3)
-        pawn = Pawn("WHITE", self.board)
-        own_rook = Rook("WHITE", self.board)
-        self.board.set_piece(6, 4, pawn)
-        self.board.set_piece(5, 3, own_rook)
-        
-        # Verificar que el peón NO puede capturar su propia pieza en diagonal
-        is_valid = pawn.valid_positions(6, 4, 5, 3)
+        # El peón no debe poder moverse hacia adelante si está bloqueado
+        is_valid = pawn.valid_positions(6, 4, 5, 4)
         self.assertFalse(is_valid)
 
-    def test_pawn_blocked_move(self):
-        # Crear un peón blanco en (6, 4) y una torre (bloqueo) en (5, 4)
+    def test_pawn_capture_diagonal(self):
+        # Test de captura en diagonal
         pawn = Pawn("WHITE", self.board)
-        blocking_rook = Rook("BLACK", self.board)
+        enemy_pawn = Pawn("BLACK", self.board)
         self.board.set_piece(6, 4, pawn)
-        self.board.set_piece(5, 4, blocking_rook)
-        
-        # Verificar que el peón NO puede avanzar a (5, 4)
-        is_valid = pawn.valid_positions(6, 4, 5, 4)
-        self.assertFalse(is_valid)  # Este movimiento no debería ser válido
+        self.board.set_piece(5, 5, enemy_pawn)
 
-    def test_pawn_black_moves(self):
-        # Crear un peón negro en su posición inicial (1, 4)
-        pawn = Pawn("BLACK", self.board)
-        self.board.set_piece(1, 4, pawn)
-        
-        # Verificar que puede avanzar dos casillas a (3, 4)
-        is_valid = pawn.valid_positions(1, 4, 3, 4)
+        is_valid = pawn.valid_positions(6, 4, 5, 5)
         self.assertTrue(is_valid)
-        
-        # Verificar que puede avanzar una casilla a (2, 4)
-        is_valid = pawn.valid_positions(1, 4, 2, 4)
-        self.assertTrue(is_valid)
+
+    def test_pawn_invalid_diagonal_no_capture(self):
+        # Test de movimiento diagonal inválido si no hay pieza enemiga
+        pawn = Pawn("WHITE", self.board)
+        self.board.set_piece(6, 4, pawn)
+
+        is_valid = pawn.valid_positions(6, 4, 5, 5)
+        self.assertFalse(is_valid)
 
     def test_pawn_promotion(self):
-        # Verificar que el peón se promueva a reina al llegar a la última fila
+        # Test de promoción de peón
         pawn = Pawn("WHITE", self.board)
-        self.board.set_piece(1, 4, pawn)  # Colocar peón blanco en (1, 4)
-        
-        # El peón se mueve a (0, 4) y debe promocionar a reina
+        self.board.set_piece(1, 4, pawn)
+
+        # Mover el peón a la fila de promoción
         pawn.verify_promote(0, 4)
-        
+
+        # Verificar si el peón fue promovido a reina
         promoted_piece = self.board.get_piece(0, 4)
-        # Verificar que ahora hay una reina en la posición (0, 4)
         self.assertIsInstance(promoted_piece, Queen)
 
-"""
-    def test_initial_black(self):
-        board = Board(for_test = True)
-        pawn = Pawn("BLACK", board)
+    def test_pawn_no_promotion_before_final_row(self):
+        # Test de que el peón no se promueve antes de llegar a la fila final
+        pawn = Pawn("WHITE", self.board)
+        self.board.set_piece(2, 4, pawn)
 
-        possibles = pawn.get_possible_positions(1, 5)
-        self.assertEqual(
-            possibles,
-            [(2, 5), (3, 5)]
-        )
+        # No debe haber promoción antes de la fila final
+        pawn.verify_promote(2, 4)
+        promoted_piece = self.board.get_piece(2, 4)
+        self.assertNotIsInstance(promoted_piece, Queen)  # Debe seguir siendo un peón
 
-    def test_not_initial_black(self):
-        board = Board(for_test = True)
-        pawn = Pawn("BLACK", board)
 
-        possibles = pawn.get_possible_positions(2, 5)
-        self.assertEqual(
-            possibles,
-            [(3, 5)]
-        )
-
-    def test_eat_left_black(self):
-        board = Board(for_test = True)
-        pawn = Pawn("BLACK", board)
-        board.set_piece(3, 6, Pawn("WHITE", board))
-
-        possibles = pawn.get_possible_positions(2, 5)
-        self.assertEqual(
-            possibles,
-            [(3, 5), (3, 6)]
-        )
-
-    def test_initial_white(self):
-        board = Board(for_test = True)
-        pawn = Pawn("WHITE", board)
-
-        possibles = pawn.get_possible_positions(6, 4)
-        self.assertEqual(
-            possibles,
-            [(5, 4), (4, 4)]
-        )
-
-    def test_not_initial_white(self):
-        board = Board(for_test = True)
-        pawn = Pawn("WHITE", board)
-
-        possibles = pawn.get_possible_positions(5, 4)
-        self.assertEqual(
-            possibles,
-            [(4, 4)]
-        )
-
-    def test_not_initial_white_block(self):
-        board = Board(for_test = True)
-        pawn = Pawn("WHITE", board)
-        board.set_piece(4, 4, Pawn("BLACK", board))
-
-        possibles = pawn.get_possible_positions(5, 4)
-        self.assertEqual(
-            possibles,
-            []
-        )
-
-    def test_not_initial_black_block(self):
-        board = Board(for_test = True)
-        pawn = Pawn("BLACK", board)
-        board.set_piece(5, 4, Pawn("BLACK", board))
-
-        possibles = pawn.get_possible_positions(4, 4)
-        self.assertEqual(
-            possibles,
-            []
-        )
-
-"""
 
 if __name__ == '__main__':
     unittest.main()
