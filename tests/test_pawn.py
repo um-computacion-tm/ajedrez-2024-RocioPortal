@@ -3,6 +3,7 @@ import unittest
 from chess.pawn import Pawn
 from chess.board import Board
 from chess.rook import Rook
+from chess.queen import Queen
 
 
 class TestPawn(unittest.TestCase):
@@ -86,6 +87,19 @@ class TestPawn(unittest.TestCase):
         # Verificar que puede avanzar una casilla a (2, 4)
         is_valid = pawn.valid_positions(1, 4, 2, 4)
         self.assertTrue(is_valid)
+
+    def test_pawn_promotion(self):
+        # Verificar que el peón se promueva a reina al llegar a la última fila
+        pawn = Pawn("WHITE", self.board)
+        self.board.set_piece(1, 4, pawn)  # Colocar peón blanco en (1, 4)
+        
+        # El peón se mueve a (0, 4) y debe promocionar a reina
+        pawn.verify_promote(0, 4)
+        
+        promoted_piece = self.board.get_piece(0, 4)
+        # Verificar que ahora hay una reina en la posición (0, 4)
+        self.assertIsInstance(promoted_piece, Queen)
+
 """
     def test_initial_black(self):
         board = Board(for_test = True)

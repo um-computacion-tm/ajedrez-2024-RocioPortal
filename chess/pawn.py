@@ -42,11 +42,9 @@ class Pawn(Piece):
 
         return (to_row, to_col) in possible_positions
     
-    def verify_promote(self, moves):
-          for move in moves:
-               next_row, next_col = move
-               if (self.__color__ == "WHITE" and next_row == 0) or (self.__color__ == "BLACK" and next_row == 7):
-                    self.promote(next_row, next_col)
+    def verify_promote(self, row, col):
+        if (self.__color__ == "WHITE" and row == 0) or (self.__color__ == "BLACK" and row == 7):
+            self.promote(row, col)
      
     def promote(self, row, col): 
         self.__board__.set_piece(row, col, Queen(self.__color__, self.__board__))
