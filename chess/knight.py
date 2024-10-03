@@ -6,8 +6,16 @@ class Knight(Piece):
     black_str = "♘"
 
     def valid_positions(self, from_row, from_col, to_row, to_col):
-        # Movimientos en forma de "L"
-        knight_moves = [(2, 1), (2, -1), (-2, 1), (-2, -1),
-                        (1, 2), (1, -2), (-1, 2), (-1, -2)]
-        possible_positions = self.possible_moves_general(from_row, from_col, knight_moves, single_step=True)
+        """
+        Determina si un movimiento de caballo es válido.
+        """
+        directions = self.generate_knight_directions()
+        possible_positions = self.possible_moves_general(from_row, from_col, directions, single_step=True)
         return (to_row, to_col) in possible_positions
+
+    def generate_knight_directions(self):
+        """
+        Genera las direcciones de movimiento posibles del caballo.
+        """
+        moves = [2, 1, -1, -2]
+        return [(i, j) for i in moves for j in moves if abs(i) != abs(j)]
