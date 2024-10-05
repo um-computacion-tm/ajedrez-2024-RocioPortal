@@ -1,5 +1,6 @@
 from chess.board import Board
 from chess.exceptions import InvalidMove, InvalidTurn, EmptyPosition
+import sys
 
 class Chess:
     def __init__(self):
