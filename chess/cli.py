@@ -1,10 +1,14 @@
 from chess.chess import Chess
-from chess.exceptions import InvalidMove, InvalidTurn, EmptyPosition
-
+from chess.exceptions import InvalidMove, InvalidTurn, EmptyPosition, GameOverException
+import sys
 def main():
-    chess = Chess()   
-    while  chess.is_playing:       
-        play(chess)
+    chess = Chess()
+    try:   
+        while  chess.is_playing:       
+            play(chess)
+    except GameOverException as e:
+        print(e)
+        sys.exit()  # Finalizar el programa cuando el juego ha terminado
 
 def play (chess):
     try:

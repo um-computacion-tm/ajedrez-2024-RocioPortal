@@ -13,3 +13,7 @@ class EmptyPosition(InvalidMove):
 
 class OutOfBoard(InvalidMove):
     message = "La posicion indicada se encuentra fuera del tablero"
+
+class GameOverException(Exception):
+    def __init__(self, message="El juego ha terminado"):
+        super().__init__(message)

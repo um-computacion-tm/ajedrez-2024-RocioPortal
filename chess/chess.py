@@ -1,6 +1,5 @@
 from chess.board import Board
-from chess.exceptions import InvalidMove, InvalidTurn, EmptyPosition
-import sys
+from chess.exceptions import InvalidMove, InvalidTurn, EmptyPosition, GameOverException
 
 class Chess:
     def __init__(self):
@@ -38,10 +37,16 @@ class Chess:
         user_input = input().strip().lower()
         if user_input == "si":
             print("Su partida ha sido terminada, gracias por jugar!")
-            return self.finish()
+            raise GameOverException("El jugador ha aceptado el empate. El juego ha terminado.")
         else:
             print("Su partida continúa.")
-            return True
+            return True  # Asegúrate de devolver True aquí
+    
+    def check_end_game(self):
+        if not self.has_pieces("WHITE"):
+            raise GameOverException("Las piezas blancas han perdido. El juego ha terminado.")
+        elif not self.has_pieces("BLACK"):
+            raise GameOverException("Las piezas negras han perdido. El juego ha terminado.")
         
     @property
     def turn(self):
@@ -58,3 +63,4 @@ class Chess:
 
     def get_board(self):
         return self.__board__
+
