@@ -7,21 +7,20 @@ from chess.exceptions import OutOfBoard
 
 class TestBoard(unittest.TestCase):
 
-    def test_str_board(self):                #Inicializa el tablero y compara la salida esperada con la real utilizando simbolos
+    def test_str_board(self):
         board = Board()
-        self.assertEqual(
-            str(board),
-            (
-                "♖♘♗♕♔♗♘♖\n"    
-                "♙♙♙♙♙♙♙♙\n"          
-                "        \n"
-                "        \n"            
-                "        \n"
-                "        \n"
-                "♟♟♟♟♟♟♟♟\n"
-                "♜♞♝♛♚♝♞♜\n"
-            )
+        expected_str = (
+            "  0 1 2 3 4 5 6 7\n"
+            "0 ♖ ♘ ♗ ♕ ♔ ♗ ♘ ♖ \n"
+            "1 ♙ ♙ ♙ ♙ ♙ ♙ ♙ ♙ \n"
+            "2 . . . . . . . . \n"
+            "3 . . . . . . . . \n"
+            "4 . . . . . . . . \n"
+            "5 . . . . . . . . \n"
+            "6 ♟ ♟ ♟ ♟ ♟ ♟ ♟ ♟ \n"
+            "7 ♜ ♞ ♝ ♛ ♚ ♝ ♞ ♜ \n"
         )
+        self.assertEqual(str(board), expected_str)
 
     def setUp(self):
         self.board = Board()
@@ -70,22 +69,23 @@ class TestBoard(unittest.TestCase):
             to_row=0,
             to_col=1,
         )
-
+        
         self.assertIsInstance(
-            board.get_piece(0, 1),
-            Rook,
+        board.get_piece(0, 1),
+        Rook,
         )
         self.assertEqual(
             str(board),
             (
-                " ♖      \n"
-                "        \n"
-                "        \n"
-                "        \n"
-                "        \n"
-                "        \n"
-                "        \n"
-                "        \n"
+                "  0 1 2 3 4 5 6 7\n"
+                "0 . ♖ . . . . . . \n"
+                "1 . . . . . . . . \n"
+                "2 . . . . . . . . \n"
+                "3 . . . . . . . . \n"
+                "4 . . . . . . . . \n"
+                "5 . . . . . . . . \n"
+                "6 . . . . . . . . \n"
+                "7 . . . . . . . . \n"
             )
         )
 

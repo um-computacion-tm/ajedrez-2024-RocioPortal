@@ -23,7 +23,7 @@ class Chess:
             raise EmptyPosition()
         if not piece.get_color == self.__turn__:  
             raise InvalidTurn()
-        if self.__board__.get_piece(to_row, to_col) and self.__board__.get_piece(to_row, to_col).get_color() == self.__turn__:
+        if self.__board__.get_piece(to_row, to_col) and self.__board__.get_piece(to_row, to_col).get_color == self.__turn__:
             raise SelfCaptureException()  # Nueva excepción para evitar capturar tus propias piezas
         if not piece.valid_positions(from_row, from_col, to_row, to_col):
             raise InvalidMove()

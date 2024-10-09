@@ -47,14 +47,15 @@ class Board:
                     self.__positions__[6][i] = Pawn("WHITE", self)
 
 
-    def __str__(self):      #define cómo se convierte el objeto Board a una cadena de texto cuando se intenta imprimirlo o convertirlo a una cadena usando str().
-        board_str = ""
-        for row in self.__positions__:
+    def __str__(self):
+        board_str = "  0 1 2 3 4 5 6 7\n"  # Índices de las columnas
+        for i, row in enumerate(self.__positions__):
+            board_str += str(i) + " "  # Índices de las filas
             for cell in row:
                 if cell is not None:
-                    board_str += str(cell)
+                    board_str += str(cell) + " "
                 else:
-                    board_str += " "
+                    board_str += ". "  # Representación de las celdas vacías
             board_str += "\n"
         return board_str
 
