@@ -14,6 +14,9 @@ class EmptyPosition(InvalidMove):
 class OutOfBoard(InvalidMove):
     message = "La posicion indicada se encuentra fuera del tablero"
 
+class SelfCaptureException(InvalidMove):
+    message = "No puedes capturar tus propias piezas."
+
 class GameOverException(Exception):
-    def __init__(self, message="El juego ha terminado"):
+    def __init__(self, message="El juego ha finalizado"):
         super().__init__(message)
