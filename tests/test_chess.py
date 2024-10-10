@@ -1,5 +1,5 @@
 import unittest
-from chess.chess import Chess
+from chess.game import Chess
 from chess.pawn import Pawn
 from chess.exceptions import InvalidMove, InvalidTurn, EmptyPosition, GameOverException, SelfCaptureException
 from chess.board import Board

@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import patch, MagicMock
-from chess.chess import Chess
+from chess.game import Chess
 from chess.cli import play, main, GameOverException
 import sys
 

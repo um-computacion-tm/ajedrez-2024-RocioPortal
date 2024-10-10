@@ -1,4 +1,4 @@
-from chess.chess import Chess
+from chess.game import Chess
 from chess.exceptions import InvalidMove, GameOverException
 import sys
 
