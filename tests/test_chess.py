@@ -1,8 +1,10 @@
 import unittest
 from chess.chess import Chess
 from chess.pawn import Pawn
-from chess.exceptions import InvalidMove, InvalidTurn, EmptyPosition
+from chess.exceptions import InvalidMove, InvalidTurn, EmptyPosition, GameOverException, SelfCaptureException
 from chess.board import Board
+from unittest.mock import patch
+from chess.rook import Rook
 
 class TestChess(unittest.TestCase):
 
@@ -21,19 +23,19 @@ class TestChess(unittest.TestCase):
 
 
     def test_show_board(self):
-        # Verificar que se puede mostrar el estado del tablero
-        board_str = self.game.show_board()
+        chess = Chess()
         expected_str = (
-            "♖♘♗♕♔♗♘♖\n"
-            "♙♙♙♙♙♙♙♙\n"
-            "        \n"
-            "        \n"
-            "        \n"
-            "        \n"
-            "♟♟♟♟♟♟♟♟\n"
-            "♜♞♝♛♚♝♞♜\n"
+            "  0 1 2 3 4 5 6 7\n"
+            "0 ♖ ♘ ♗ ♕ ♔ ♗ ♘ ♖ \n"
+            "1 ♙ ♙ ♙ ♙ ♙ ♙ ♙ ♙ \n"
+            "2 . . . . . . . . \n"
+            "3 . . . . . . . . \n"
+            "4 . . . . . . . . \n"
+            "5 . . . . . . . . \n"
+            "6 ♟ ♟ ♟ ♟ ♟ ♟ ♟ ♟ \n"
+            "7 ♜ ♞ ♝ ♛ ♚ ♝ ♞ ♜ \n"
         )
-        self.assertEqual(board_str, expected_str)
+        self.assertEqual(chess.show_board(), expected_str)
 
     def test_change_turn(self):
         # Verificar que el turno cambie después de un movimiento
@@ -62,6 +64,18 @@ class TestChess(unittest.TestCase):
         #verificar que el tablero contiene piezas en posiciones iniciales
         self.assertIsNotNone(board.get_piece(0, 0))  # Debería haber una torre negra en la posición (0, 0)
         self.assertIsNotNone(board.get_piece(7, 0))  # Debería haber una torre blanca en la posición (7, 0)
+
+
+    def test_self_capture(self):
+        # Coloca una pieza blanca en (6, 0) (Peón) y otra blanca en (5, 0)
+        rook = Rook("WHITE", self.game.get_board())
+        self.game.get_board().set_piece(6, 0, rook)  # Colocar torre blanca en (6, 0)
+        self.game.get_board().set_piece(5, 0, rook)  # Colocar otra torre blanca en (5, 0)
+
+        # Intentar capturar la pieza propia
+        with self.assertRaises(SelfCaptureException):
+            self.game.move(6, 0, 5, 0)  # Mover la torre desde (6, 0) a (5, 0) (captura inválida)
+
 
 if __name__ == '__main__':
     unittest.main()

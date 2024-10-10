@@ -1,6 +1,5 @@
 from chess.board import Board
-from chess.exceptions import InvalidMove, InvalidTurn, EmptyPosition
-import sys
+from chess.exceptions import InvalidMove, InvalidTurn, EmptyPosition, GameOverException, SelfCaptureException
 
 class Chess:
     def __init__(self):
@@ -24,24 +23,19 @@ class Chess:
             raise EmptyPosition()
         if not piece.get_color == self.__turn__:  
             raise InvalidTurn()
+        if self.__board__.get_piece(to_row, to_col) and self.__board__.get_piece(to_row, to_col).get_color == self.__turn__:
+            raise SelfCaptureException()  # Nueva excepción para evitar capturar tus propias piezas
         if not piece.valid_positions(from_row, from_col, to_row, to_col):
             raise InvalidMove()
         self.__board__.move(from_row, from_col, to_row, to_col)
         self.change_turn()
 
 
-    # Usuario elige terminan o no la partida (ofrece empate)
-
-    def offer_draw(self):
-        import sys
-        print("¿Quiere terminar la partida? (si/no)")
-        user_input = input().strip().lower()
-        if user_input == "si":
-            print("Su partida ha sido terminada, gracias por jugar!")
-            return self.finish()
-        else:
-            print("Su partida continúa.")
-            return True
+    def check_end_game(self):
+        if not self.has_pieces("WHITE"):
+            raise GameOverException("Las piezas blancas han perdido. El juego ha terminado.")
+        elif not self.has_pieces("BLACK"):
+            raise GameOverException("Las piezas negras han perdido. El juego ha terminado.")
         
     @property
     def turn(self):
@@ -58,3 +52,4 @@ class Chess:
 
     def get_board(self):
         return self.__board__
+
