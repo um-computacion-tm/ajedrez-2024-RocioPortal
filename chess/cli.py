@@ -1,6 +1,7 @@
 from chess.chess import Chess
-from chess.exceptions import InvalidMove, InvalidTurn, EmptyPosition, GameOverException
+from chess.exceptions import InvalidMove, GameOverException
 import sys
+
 def main():
     chess = Chess()
     try:   
@@ -15,6 +16,12 @@ def play (chess):
 
         #print(chess.show_board()) 
         print("turn: ", chess.turn)
+         # Capturar la entrada del usuario y verificar si quiere salir
+        user_input = input("Ingrese su movimiento o EXIT para terminar: ").strip().lower()
+
+        if user_input == "EXIT":
+            raise GameOverException("El jugador ha terminado la partida.")
+        
         from_row= int(input("Desde fila: "))
         from_col= int(input("Desde columna: "))
         to_row= int(input("A fila: "))
@@ -35,8 +42,6 @@ def play (chess):
 #las excepciones se ponen de la mas particular a la mas general
     
     except InvalidMove as e:
-        print(e)
-    except InvalidTurn as e:
         print(e)
     except Exception as e:
         print("error", e)

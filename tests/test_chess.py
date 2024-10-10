@@ -65,18 +65,6 @@ class TestChess(unittest.TestCase):
         self.assertIsNotNone(board.get_piece(0, 0))  # Debería haber una torre negra en la posición (0, 0)
         self.assertIsNotNone(board.get_piece(7, 0))  # Debería haber una torre blanca en la posición (7, 0)
 
-    @patch('builtins.input', return_value='si')  # Simular que el usuario acepta el empate
-    def test_offer_draw_accept(self, mock_input):
-        chess = Chess()
-        with self.assertRaises(GameOverException) as context:
-            chess.offer_draw()
-        self.assertEqual(str(context.exception), "El jugador ha aceptado el empate. El juego ha terminado.")
-
-    @patch('builtins.input', return_value='no')  # Simular que el usuario rechaza el empate
-    def test_offer_draw_decline(self, mock_input):
-        chess = Chess()
-        result = chess.offer_draw()
-        self.assertTrue(result)  # Verificar que el juego continúa si se rechaza el empate
 
     def test_self_capture(self):
         # Coloca una pieza blanca en (6, 0) (Peón) y otra blanca en (5, 0)

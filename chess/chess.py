@@ -31,19 +31,6 @@ class Chess:
         self.change_turn()
 
 
-    # Usuario elige terminan o no la partida (ofrece empate)
-
-    def offer_draw(self):
-        import sys
-        print("¿Quiere terminar la partida? (si/no)")
-        user_input = input().strip().lower()
-        if user_input == "si":
-            print("Su partida ha sido terminada, gracias por jugar!")
-            raise GameOverException("El jugador ha aceptado el empate. El juego ha terminado.")
-        else:
-            print("Su partida continúa.")
-            return True  # Asegúrate de devolver True aquí
-    
     def check_end_game(self):
         if not self.has_pieces("WHITE"):
             raise GameOverException("Las piezas blancas han perdido. El juego ha terminado.")
