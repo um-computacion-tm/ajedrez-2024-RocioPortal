@@ -1,5 +1,5 @@
 from chess.board import Board
-from chess.exceptions import InvalidMove, InvalidTurn, EmptyPosition, GameOverException, SelfCaptureException
+from chess.exceptions import InvalidMove, InvalidTurn, EmptyPosition, SelfCaptureException
 
 class Chess:
     def __init__(self):
@@ -20,7 +20,7 @@ class Chess:
        # validate coords
         piece = self.__board__.get_piece(from_row, from_col)
         if not piece:
-            raise EmptyPosition()
+            raise EmptyPosition() 
         if not piece.get_color == self.__turn__:  
             raise InvalidTurn()
         if self.__board__.get_piece(to_row, to_col) and self.__board__.get_piece(to_row, to_col).get_color == self.__turn__:
@@ -32,11 +32,14 @@ class Chess:
 
 
     def check_end_game(self):
-        if not self.has_pieces("WHITE"):
-            raise GameOverException("Las piezas blancas han perdido. El juego ha terminado.")
-        elif not self.has_pieces("BLACK"):
-            raise GameOverException("Las piezas negras han perdido. El juego ha terminado.")
+        if len(self.__board__.pieces_from_black_piece) == 16:
+            return "WHITE WINS"
+        elif len(self.__board__.pieces_from_white_piece) == 16:
+            return "BLACK WINS"
+        else:
+            return False
         
+
     @property
     def turn(self):
         return self.__turn__
