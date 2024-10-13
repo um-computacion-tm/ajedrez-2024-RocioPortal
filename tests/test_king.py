@@ -46,12 +46,12 @@ class TestKing(unittest.TestCase):
         is_valid = king.valid_positions(4, 4, 6, 6)  # Más de un paso
         self.assertFalse(is_valid)
 
-    def test_king_blocked_by_own_piece(self):
+    def test_king_move_out_of_bounds(self):
         king = King("WHITE", self.board)
-        self.board.set_piece(4, 4, king)
-        self.board.set_piece(5, 5, King("WHITE", self.board))  # Pieza propia
-        is_valid = king.valid_positions(4, 4, 5, 5)
+        self.board.set_piece(0, 0, king)  # Posición inicial en la esquina del tablero
+        is_valid = king.valid_positions(0, 0, -1, -1)  # Movimiento fuera del tablero
         self.assertFalse(is_valid)
 
+   
 if __name__ == '__main__':
     unittest.main()
