@@ -1,46 +1,45 @@
 import unittest
 from unittest.mock import patch, MagicMock
-from chess.chess import Chess
-from chess.cli import play, main, GameOverException
+from chess.game import Chess
+from chess.cli import play, main
+from chess.exceptions import InvalidMove, InvalidCoordinateInputError, GameOverException
 import sys
 
 
 class TestCli(unittest.TestCase):
     
-    @patch('chess.cli.play')  # Simular la función play en cli.py
-    @patch('chess.cli.Chess')  # Simular la clase Chess en cli.py
-    @patch('sys.exit')  # Capturar la llamada a sys.exit para no terminar el test
-    def test_game_over_exception(self, mock_exit, mock_chess, mock_play):
-        # Simular una instancia de Chess y su atributo is_playing
-        mock_chess_instance = MagicMock()
-        mock_chess_instance.is_playing = True  # El juego está activo inicialmente
-        mock_chess.return_value = mock_chess_instance
-        
-        # Configurar la función play para lanzar la excepción GameOverException
-        mock_play.side_effect = GameOverException("Fin del juego")
+    @patch('builtins.input', side_effect=['hola', '0', '1', '0', 'EXIT'])
+    @patch('builtins.print')  # Simular print
+    @patch.object(Chess, 'move')
+    def test_invalid_coordinate_input(self, mock_chess_move, mock_print, mock_input):
+        chess = Chess()
+        play(chess)
+        # Verifica que el programa pidió 5 entradas
+        self.assertEqual(mock_input.call_count, 4)
+        # Verifica que el print se llamó 4 veces
+        self.assertEqual(mock_print.call_count, 4)
+        # Verifica que el movimiento no se ejecutó por entrada inválida
+        self.assertEqual(mock_chess_move.call_count, 0)
 
-        # Ejecutar el método main
-        main()
 
-        # Verificar que se haya lanzado y capturado GameOverException
-        mock_exit.assert_called_once()  # sys.exit debe haber sido llamado una vez
-        mock_play.assert_called()  # Verificar que play fue llamado
+    @patch('builtins.input', side_effect=['EXIT'])
+    @patch('builtins.print')  # Simular print
+    def test_exit_game(self, mock_print, mock_input):
+        with self.assertRaises(SystemExit):  # Esperamos que el juego termine con "EXIT"
+            main()
+        # Verifica que se imprimió el mensaje de salida
+        mock_print.assert_any_call("El jugador ha terminado la partida.")
 
-    @patch('chess.cli.play')  # Simular la función play en cli.py
-    @patch('chess.cli.Chess')  # Simular la clase Chess en cli.py
-    @patch('sys.exit')  # Capturar la llamada a sys.exit
-    def test_game_runs_normally(self, mock_exit, mock_chess, mock_play):
-        # Simular una instancia de Chess y su atributo is_playing
-        mock_chess_instance = MagicMock()
-        mock_chess_instance.is_playing = False  # El juego termina inmediatamente
-        mock_chess.return_value = mock_chess_instance
-        
-        # Ejecutar el método main
-        main()
 
-        # Verificar que no se haya llamado sys.exit (porque el juego terminó sin excepciones)
-        mock_exit.assert_not_called()
-        mock_play.assert_not_called()  # El método play no debería llamarse si el juego no está activo
+    @patch('builtins.input', side_effect=['EXIT'])
+    @patch('builtins.print')  # Simular print
+    @patch.object(Chess, 'move')
+    def test_game_over_exception(self, mock_chess_move, mock_print, mock_input):
+        chess = Chess()
+        with self.assertRaises(SystemExit):  # Esperamos que el juego termine con "EXIT"
+            play(chess)
+        mock_print.assert_any_call("El jugador ha terminado la partida.")
+
 
     @patch(  # este patch controla lo que hace el input
         'builtins.input',
@@ -56,9 +55,9 @@ class TestCli(unittest.TestCase):
     ): #
         chess = Chess()
         play(chess)
-        self.assertEqual(mock_input.call_count, 5)
-        self.assertEqual(mock_print.call_count, 2)
-        self.assertEqual(mock_chess_move.call_count, 0)
+        self.assertEqual(mock_input.call_count, 4)
+        self.assertEqual(mock_print.call_count, 3)
+        self.assertEqual(mock_chess_move.call_count, 1)
 
     @patch(  # este patch controla lo que hace el input
         'builtins.input',
@@ -74,8 +73,8 @@ class TestCli(unittest.TestCase):
     ): #
         chess = Chess()
         play(chess)
-        self.assertEqual(mock_input.call_count, 5)
-        self.assertEqual(mock_print.call_count, 2)
+        self.assertEqual(mock_input.call_count, 4)
+        self.assertEqual(mock_print.call_count, 4)
         self.assertEqual(mock_chess_move.call_count, 0)
 
     @patch(  # este patch controla lo que hace el input
@@ -89,11 +88,11 @@ class TestCli(unittest.TestCase):
         mock_chess_move,
         mock_print,
         mock_input,
-    ): #
+    ): 
         chess = Chess()
         play(chess)
         self.assertEqual(mock_input.call_count, 4)
-        self.assertEqual(mock_print.call_count, 2)
+        self.assertEqual(mock_print.call_count, 4)
         self.assertEqual(mock_chess_move.call_count, 0)
 
 

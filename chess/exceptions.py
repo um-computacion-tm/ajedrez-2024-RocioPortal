@@ -17,6 +17,9 @@ class OutOfBoard(InvalidMove):
 class SelfCaptureException(InvalidMove):
     message = "No puedes capturar tus propias piezas."
 
+class InvalidCoordinateInputError(InvalidMove):
+    message = "Las coordenadas deben ser números."
+
 class GameOverException(Exception):
     def __init__(self, message="El juego ha finalizado"):
         super().__init__(message)

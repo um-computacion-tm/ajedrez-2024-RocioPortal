@@ -1,5 +1,5 @@
 from chess.board import Board
-from chess.exceptions import InvalidMove, InvalidTurn, EmptyPosition, GameOverException, SelfCaptureException
+from chess.exceptions import InvalidMove, InvalidTurn, EmptyPosition, SelfCaptureException
 
 class Chess:
     def __init__(self):
@@ -20,7 +20,7 @@ class Chess:
        # validate coords
         piece = self.__board__.get_piece(from_row, from_col)
         if not piece:
-            raise EmptyPosition()
+            raise EmptyPosition() 
         if not piece.get_color == self.__turn__:  
             raise InvalidTurn()
         if self.__board__.get_piece(to_row, to_col) and self.__board__.get_piece(to_row, to_col).get_color == self.__turn__:
@@ -31,12 +31,28 @@ class Chess:
         self.change_turn()
 
 
-    def check_end_game(self):
-        if not self.has_pieces("WHITE"):
-            raise GameOverException("Las piezas blancas han perdido. El juego ha terminado.")
-        elif not self.has_pieces("BLACK"):
-            raise GameOverException("Las piezas negras han perdido. El juego ha terminado.")
+    def check_winner(self):
+        white_pieces = 0
+        black_pieces = 0
         
+        # Recorre el tablero y cuenta las piezas de cada color
+        for row in self.__board__.__positions__:
+            for piece in row:
+                if piece is not None:
+                    if piece.get_color == "WHITE":
+                        white_pieces += 1
+                    elif piece.get_color == "BLACK":
+                        black_pieces += 1
+
+        # Verifica si alguno de los jugadores se ha quedado sin piezas
+        if white_pieces == 0:
+            return "BLACK WINS"
+        elif black_pieces == 0:
+            return "WHITE WINS"
+        else:
+            return False
+        
+
     @property
     def turn(self):
         return self.__turn__
