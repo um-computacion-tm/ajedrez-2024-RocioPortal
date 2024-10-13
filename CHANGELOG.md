@@ -1,5 +1,60 @@
 # CHANGELOG
 
+## [0.22] - 12 / 10 / 2024 -
+
+### Added
+
+- Game over excepiton
+- Indice al tablero
+- Funcion check winner 
+- Excepción InvalidCoordinateInputError
+- Tests de todas las excepciones
+
+### Fixed
+
+- Clase Chess
+- Cli
+
+### Changed
+
+- Movimientos de la torre
+
+## [0.21] - 1 / 10 / 2024 -
+
+### Added
+
+- Tests del chess
+
+### Fixed
+
+- Tests de los peones
+- Definición de color de piezas
+
+## [0.20] - 25 / 09 / 2024 -
+
+### Added
+
+- Movimientos de la Reina
+- Movimientos del Rey
+- Adaptación del alfil al nuevo código
+- Tests del alfil
+- Tests de la Torre
+- Tests del Rey
+
+### Fixed
+
+- Movimeintos del caballo
+
+## [0.19] - 18 / 09 / 2024 -
+
+### Added
+- Todos los movimientos diagonales de las piezas
+- Movimeintos del caballo  
+
+### Fixed
+-  Método general del archivo pieces
+-  Test pieces
+
 ## [0.18] - 10 / 09 / 2024 - Exceptions
 
 ### Added

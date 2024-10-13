@@ -48,5 +48,24 @@ class TestBishop(unittest.TestCase):
         is_valid = bishop.valid_positions(4, 4, 6, 6)
         self.assertTrue(is_valid)  # La captura debería ser válida
 
+    def test_bishop_move_out_of_bounds(self):
+        bishop = Bishop("WHITE", self.board)
+        self.board.set_piece(0, 0, bishop)
+        is_valid = bishop.valid_positions(0, 0, -1, -1)  # Movimiento fuera del tablero
+        self.assertFalse(is_valid)
+
+    def test_bishop_move_orthogonal(self):
+        bishop = Bishop("WHITE", self.board)
+        self.board.set_piece(4, 4, bishop)
+        is_valid = bishop.valid_positions(4, 4, 4, 6)  # Intento de movimiento horizontal
+        self.assertFalse(is_valid)
+
+    def test_bishop_long_move_diagonal(self):
+        bishop = Bishop("WHITE", self.board)
+        self.board.set_piece(1, 1, bishop)
+        is_valid = bishop.valid_positions(1, 1, 7, 7)  # Movimiento diagonal largo sin bloqueo
+        self.assertTrue(is_valid)
+
+
 if __name__ == '__main__':
     unittest.main()
