@@ -1,11 +1,11 @@
 from chess.game import Chess
-from chess.exceptions import InvalidMove, GameOverException
+from chess.exceptions import InvalidMove, GameOverException, InvalidCoordinateInputError
 import sys
 
 def main():
     chess = Chess()
-    try:   
-        while  chess.is_playing:       
+    try:
+        while True:  # Bucle principal del juego
             play(chess)
     except GameOverException as e:
         print(e)
@@ -13,19 +13,35 @@ def main():
 
 def play (chess):
     try:
-
-        #print(chess.show_board()) 
+        print(chess.show_board()) 
         print("turn: ", chess.turn)
          # Capturar la entrada del usuario y verificar si quiere salir
-        user_input = input("Ingrese su movimiento o EXIT para terminar: ").strip().lower()
-
-        if user_input == "EXIT":
-            raise GameOverException("El jugador ha terminado la partida.")
+        print("Ingrese su movimiento o EXIT para terminar: ")
         
-        from_row= int(input("Desde fila: "))
-        from_col= int(input("Desde columna: "))
-        to_row= int(input("A fila: "))
-        to_col= int(input("A columna: "))
+        # Capturar la entrada del usuario y verificar si quiere salir
+        from_row = input("Desde fila: ").strip().upper()
+        if from_row == "EXIT":
+            print("El jugador ha terminado la partida.")
+            exit()
+        from_col = input("Desde columna: ").strip().upper()
+        if from_col == "EXIT":                      
+            print("El jugador ha terminado la partida.")
+            exit()
+        to_row = input("A fila: ").strip().upper()
+        if to_row == "EXIT":
+            print("El jugador ha terminado la partida.")
+            exit()
+        to_col = input("A columna: ").strip().upper()
+        if to_col == "EXIT":
+            print("El jugador ha terminado la partida.")
+            exit()
+        try:
+            from_row = int(from_row)
+            from_col = int(from_col)
+            to_row = int(to_row)
+            to_col = int(to_col)
+        except ValueError:
+            raise InvalidCoordinateInputError()  # Lanzar la excepción si no es un número
 
         chess.move(
             from_row,
@@ -34,21 +50,21 @@ def play (chess):
             to_col
         )
 
-        promotion_happened = chess.move(from_row, from_col, to_row, to_col)
-        
-        if promotion_happened:   #muestra el mensaje de que ha ocurrido el cambio
-            print(f"¡El peón ha sido promovido a reina en la posición: ({to_row}, {to_col})!")
+        # Verificar si hay un ganador
+        winner = chess.check_winner()
+        if winner:
+            print(print(f"El juego ha terminado. {winner} es el ganador."))  # Imprimir el mensaje de quién ganó
+            sys.exit()  # Salir del programa
+        return
 
 #las excepciones se ponen de la mas particular a la mas general
-    
+    except InvalidCoordinateInputError as e:
+        print(e)
     except InvalidMove as e:
         print(e)
     except Exception as e:
         print("error", e)
 
 
-
-# if __name__ == '__main__':
-#      main()
-
-    
+if __name__ == '__main__':
+    main()

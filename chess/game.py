@@ -31,11 +31,24 @@ class Chess:
         self.change_turn()
 
 
-    def check_end_game(self):
-        if len(self.__board__.pieces_from_black_piece) == 16:
-            return "WHITE WINS"
-        elif len(self.__board__.pieces_from_white_piece) == 16:
+    def check_winner(self):
+        white_pieces = 0
+        black_pieces = 0
+        
+        # Recorre el tablero y cuenta las piezas de cada color
+        for row in self.__board__.__positions__:
+            for piece in row:
+                if piece is not None:
+                    if piece.get_color == "WHITE":
+                        white_pieces += 1
+                    elif piece.get_color == "BLACK":
+                        black_pieces += 1
+
+        # Verifica si alguno de los jugadores se ha quedado sin piezas
+        if white_pieces == 0:
             return "BLACK WINS"
+        elif black_pieces == 0:
+            return "WHITE WINS"
         else:
             return False
         

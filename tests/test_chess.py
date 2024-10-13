@@ -1,10 +1,9 @@
 import unittest
 from chess.game import Chess
-from chess.pawn import Pawn
-from chess.exceptions import InvalidMove, InvalidTurn, EmptyPosition, GameOverException, SelfCaptureException
+from chess.exceptions import InvalidMove, InvalidTurn, EmptyPosition, SelfCaptureException
 from chess.board import Board
-from unittest.mock import patch
 from chess.rook import Rook
+
 
 class TestChess(unittest.TestCase):
 
@@ -75,6 +74,41 @@ class TestChess(unittest.TestCase):
         # Intentar capturar la pieza propia
         with self.assertRaises(SelfCaptureException):
             self.game.move(6, 0, 5, 0)  # Mover la torre desde (6, 0) a (5, 0) (captura inválida)
+
+    def test_white_wins(self):
+        # Simular un escenario donde solo las piezas blancas permanecen
+        for row in range(8):
+            for col in range(8):
+                self.game.__board__.set_piece(row, col, None)  # Vaciar el tablero
+
+        self.game.__board__.set_piece(7, 0, Rook("WHITE", self.game.__board__))  # Dejar una torre blanca
+
+        result = self.game.check_winner()  # Verifica si el juego ha terminado
+        self.assertEqual(result, "WHITE WINS")  # El jugador blanco debe ganar
+
+    def test_black_wins(self):
+        # Simular un escenario donde solo las piezas negras permanecen
+        for row in range(8):
+            for col in range(8):
+                self.game.__board__.set_piece(row, col, None)  # Vaciar el tablero
+
+        self.game.__board__.set_piece(0, 0, Rook("BLACK", self.game.__board__))  # Dejar una torre negra
+
+        result = self.game.check_winner()  # Verifica si el juego ha terminado
+        self.assertEqual(result, "BLACK WINS")  # El jugador negro debe ganar
+
+    def test_game_in_progress(self):
+        # Simular un escenario donde el juego sigue en progreso (ambos jugadores tienen piezas)
+        for row in range(8):
+            for col in range(8):
+                self.game.__board__.set_piece(row, col, None)  # Vaciar el tablero
+
+        # Agregar una pieza blanca y una negra
+        self.game.__board__.set_piece(7, 0, Rook("WHITE", self.game.__board__))
+        self.game.__board__.set_piece(0, 0, Rook("BLACK", self.game.__board__))
+
+        result = self.game.check_winner()  # Verifica si el juego sigue en progreso
+        self.assertFalse(result)  # El juego debe seguir en progreso (no hay ganador todavía)
 
 
 if __name__ == '__main__':
