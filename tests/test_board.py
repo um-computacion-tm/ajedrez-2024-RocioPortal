@@ -10,15 +10,15 @@ class TestBoard(unittest.TestCase):
     def test_str_board(self):
         board = Board()
         expected_str = (
-            "  0 1 2 3 4 5 6 7\n"
-            "0 ♖ ♘ ♗ ♕ ♔ ♗ ♘ ♖ \n"
-            "1 ♙ ♙ ♙ ♙ ♙ ♙ ♙ ♙ \n"
-            "2 . . . . . . . . \n"
-            "3 . . . . . . . . \n"
-            "4 . . . . . . . . \n"
-            "5 . . . . . . . . \n"
-            "6 ♟ ♟ ♟ ♟ ♟ ♟ ♟ ♟ \n"
-            "7 ♜ ♞ ♝ ♛ ♚ ♝ ♞ ♜ \n"
+            "    0    1    2    3    4    5    6    7 \n"
+            "0   ♖    ♘    ♗    ♕    ♔    ♗    ♘    ♖  \n\n"
+            "1   ♙    ♙    ♙    ♙    ♙    ♙    ♙    ♙  \n\n"
+            "2   .    .    .    .    .    .    .    .  \n\n"
+            "3   .    .    .    .    .    .    .    .  \n\n"
+            "4   .    .    .    .    .    .    .    .  \n\n"
+            "5   .    .    .    .    .    .    .    .  \n\n"
+            "6   ♟    ♟    ♟    ♟    ♟    ♟    ♟    ♟  \n\n"
+            "7   ♜    ♞    ♝    ♛    ♚    ♝    ♞    ♜  \n\n"
         )
         self.assertEqual(str(board), expected_str)
 
@@ -66,26 +66,26 @@ class TestBoard(unittest.TestCase):
         board.move(
             from_row=0,
             from_col=0,
-            to_row=0,
-            to_col=1,
+            to_row=2,
+            to_col=0,
         )
         
         self.assertIsInstance(
-        board.get_piece(0, 1),
-        Rook,
+            board.get_piece(2, 0),
+            Rook,
         )
         self.assertEqual(
             str(board),
             (
-                "  0 1 2 3 4 5 6 7\n"
-                "0 . ♖ . . . . . . \n"
-                "1 . . . . . . . . \n"
-                "2 . . . . . . . . \n"
-                "3 . . . . . . . . \n"
-                "4 . . . . . . . . \n"
-                "5 . . . . . . . . \n"
-                "6 . . . . . . . . \n"
-                "7 . . . . . . . . \n"
+                "    0    1    2    3    4    5    6    7 \n"  
+                "0   .    .    .    .    .    .    .    .  \n\n"
+                "1   .    .    .    .    .    .    .    .  \n\n"
+                "2   ♖    .    .    .    .    .    .    .  \n\n"
+                "3   .    .    .    .    .    .    .    .  \n\n"
+                "4   .    .    .    .    .    .    .    .  \n\n"
+                "5   .    .    .    .    .    .    .    .  \n\n"
+                "6   .    .    .    .    .    .    .    .  \n\n"
+                "7   .    .    .    .    .    .    .    .  \n\n"
             )
         )
 

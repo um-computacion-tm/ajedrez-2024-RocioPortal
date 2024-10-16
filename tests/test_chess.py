@@ -24,15 +24,15 @@ class TestChess(unittest.TestCase):
     def test_show_board(self):
         chess = Chess()
         expected_str = (
-            "  0 1 2 3 4 5 6 7\n"
-            "0 ♖ ♘ ♗ ♕ ♔ ♗ ♘ ♖ \n"
-            "1 ♙ ♙ ♙ ♙ ♙ ♙ ♙ ♙ \n"
-            "2 . . . . . . . . \n"
-            "3 . . . . . . . . \n"
-            "4 . . . . . . . . \n"
-            "5 . . . . . . . . \n"
-            "6 ♟ ♟ ♟ ♟ ♟ ♟ ♟ ♟ \n"
-            "7 ♜ ♞ ♝ ♛ ♚ ♝ ♞ ♜ \n"
+            "    0    1    2    3    4    5    6    7 \n"
+            "0   ♖    ♘    ♗    ♕    ♔    ♗    ♘    ♖  \n\n"
+            "1   ♙    ♙    ♙    ♙    ♙    ♙    ♙    ♙  \n\n"
+            "2   .    .    .    .    .    .    .    .  \n\n"
+            "3   .    .    .    .    .    .    .    .  \n\n"
+            "4   .    .    .    .    .    .    .    .  \n\n"
+            "5   .    .    .    .    .    .    .    .  \n\n"
+            "6   ♟    ♟    ♟    ♟    ♟    ♟    ♟    ♟  \n\n"
+            "7   ♜    ♞    ♝    ♛    ♚    ♝    ♞    ♜  \n\n"
         )
         self.assertEqual(chess.show_board(), expected_str)
 
