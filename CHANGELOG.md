@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## [0.23] - 16 / 10 / 2024 -
+
+### Added
+
+- Documentación de todas las funciones
+
 ## [0.22] - 12 / 10 / 2024 -
 
 ### Added
