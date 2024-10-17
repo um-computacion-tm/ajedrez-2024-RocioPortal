@@ -5,8 +5,16 @@ from chess.board import Board
 from chess.rook import Rook
 
 class TestPawn(unittest.TestCase):
+    """
+    Clase de pruebas para la pieza `Pawn` en el juego de ajedrez.
+    """
 
     def test_str(self):
+        """
+        Prueba que la representación en cadena (str) del peón sea correcta.
+        Funcionalidad:
+        - Verifica que el símbolo del peón blanco sea "♟".
+        """
         board = Board()
         pawn = Pawn("WHITE", board)
         self.assertEqual(
@@ -15,67 +23,93 @@ class TestPawn(unittest.TestCase):
         )
 
     def setUp(self):
+        """
+        Configuración inicial para cada prueba.
+        Funcionalidad:
+        - Crea un nuevo tablero de prueba antes de ejecutar cada test.
+        """
         self.board = Board(for_test=True)
 
     def test_pawn_move_forward(self):
-        # Peón blanco en (6, 4) debería poder moverse una casilla adelante
+        """
+        Prueba que el peón pueda moverse una casilla hacia adelante.
+        Funcionalidad:
+        - Verifica que el peón blanco pueda moverse una casilla hacia adelante desde su posición inicial.
+        """
         pawn = Pawn("WHITE", self.board)
         self.board.set_piece(6, 4, pawn)
         moves = pawn.get_possible_moves(6, 4)
         self.assertIn((5, 4), moves)
-        self.assertNotIn((6, 4), moves)
+        self.assertNotIn((6, 4), moves) 
 
     def test_pawn_double_move_initial_position(self):
-        # Peón blanco en la fila inicial (6, 4) debería poder moverse dos casillas adelante
+        """
+        Prueba que el peón pueda moverse dos casillas adelante desde la posición inicial.
+        Funcionalidad:
+        - Verifica que el peón blanco pueda avanzar dos casillas en su primer movimiento.
+        - Verifica que el peón negro pueda avanzar dos casillas en su primer movimiento.
+        """
         pawn = Pawn("WHITE", self.board)
         self.board.set_piece(6, 4, pawn)
         moves = pawn.get_possible_moves(6, 4)
-        self.assertIn((4, 4), moves)  # Movimiento de dos casillas
+        self.assertIn((4, 4), moves)  
 
-        # Peón negro en la fila inicial (1, 4) debería poder moverse dos casillas adelante
         pawn_black = Pawn("BLACK", self.board)
         self.board.set_piece(1, 4, pawn_black)
         moves = pawn_black.get_possible_moves(1, 4)
-        self.assertIn((3, 4), moves)  # Movimiento de dos casillas
+        self.assertIn((3, 4), moves) 
 
     def test_pawn_blocked_by_piece(self):
-        # Peón blanco no debería poder moverse si hay una pieza en frente
+        """
+        Prueba que el peón no pueda avanzar si hay una pieza bloqueando su camino.
+        Funcionalidad:
+        - Verifica que un peón blanco no pueda moverse hacia adelante si una pieza está en frente.
+        """
         pawn = Pawn("WHITE", self.board)
         self.board.set_piece(6, 4, pawn)
         blocking_piece = Pawn("BLACK", self.board)
         self.board.set_piece(5, 4, blocking_piece)
         moves = pawn.get_possible_moves(6, 4)
-        self.assertNotIn((5, 4), moves)  # No puede moverse si está bloqueado
+        self.assertNotIn((5, 4), moves)  
 
     def test_pawn_capture_diagonal(self):
-        # Peón blanco debería poder capturar en diagonal
+        """
+        Prueba que el peón pueda capturar una pieza enemiga en diagonal.
+        Funcionalidad:
+        - Coloca un peón blanco en el tablero y una pieza enemiga en diagonal para verificar que pueda capturarla.
+        """
         pawn = Pawn("WHITE", self.board)
         self.board.set_piece(4, 4, pawn)
 
-        # Colocar una pieza negra en diagonal
         enemy_piece = Pawn("BLACK", self.board)
         self.board.set_piece(3, 5, enemy_piece)
 
-        # Usar el método que maneja tanto movimientos como capturas
-        captures = pawn.get_possible_moves(4, 4)  # Asumiendo que el método ahora maneja capturas también
-        self.assertIn((3, 5), captures)  # Puede capturar en (3, 5)
+        captures = pawn.get_possible_moves(4, 4)
+        self.assertIn((3, 5), captures) 
 
     def test_pawn_cannot_capture_forward(self):
-        # Peón blanco no debería poder capturar hacia adelante
+        """
+        Prueba que el peón no pueda capturar piezas hacia adelante.
+        Funcionalidad:
+        - Verifica que el peón blanco no pueda capturar una pieza directamente en frente de él.
+        """
         pawn = Pawn("WHITE", self.board)
         self.board.set_piece(4, 4, pawn)
 
-        # Colocar una pieza negra en frente
         enemy_piece = Pawn("BLACK", self.board)
         self.board.set_piece(3, 4, enemy_piece)
 
         moves = pawn.get_possible_moves(4, 4)
-        self.assertNotIn((3, 4), moves)  # No puede capturar hacia adelante
+        self.assertNotIn((3, 4), moves) 
 
     def test_pawn_out_of_bounds(self):
-        # Verificar que los movimientos fuera de los límites del tablero no sean válidos
+        """
+        Prueba que el peón no pueda moverse fuera de los límites del tablero.
+        Funcionalidad:
+        - Verifica que un peón blanco no pueda moverse fuera del tablero desde la primera fila.
+        """
         pawn = Pawn("WHITE", self.board)
-        self.board.set_piece(0, 4, pawn)  # Peón en la primera fila
+        self.board.set_piece(0, 4, pawn) 
 
         moves = pawn.get_possible_moves(0, 4)
         self.assertNotIn((-1, 4), moves)  # No puede moverse fuera del tablero

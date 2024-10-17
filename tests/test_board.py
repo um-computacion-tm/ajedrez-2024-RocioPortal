@@ -6,8 +6,17 @@ from chess.exceptions import OutOfBoard
 
 
 class TestBoard(unittest.TestCase):
+    """
+    Clase de prueba para verificar la funcionalidad del tablero de ajedrez (`Board`).
+    """
 
     def test_str_board(self):
+        """
+        Prueba que la representación en cadena (str) del tablero sea correcta.
+        Funcionalidad:
+        - Verifica que el tablero se inicialice correctamente con las piezas en sus posiciones predeterminadas.
+        - Compara la representación en cadena del tablero con un string esperado.
+        """
         board = Board()
         expected_str = (
             "    0    1    2    3    4    5    6    7 \n"
@@ -23,10 +32,19 @@ class TestBoard(unittest.TestCase):
         self.assertEqual(str(board), expected_str)
 
     def setUp(self):
+        """
+        Configuración inicial para cada prueba.
+        Funcionalidad:
+        - Crea una nueva instancia de `Board` antes de cada test.
+        """
         self.board = Board()
 
     def test_initial_positions(self):
-        # Verificar que las piezas están en las posiciones correctas
+        """
+        Prueba que las piezas estén en las posiciones iniciales correctas.
+        Funcionalidad:
+        - Verifica que las torres y los peones estén en las posiciones iniciales tanto para las piezas blancas como negras.
+        """
         self.assertIsInstance(self.board.get_piece(0, 0), Rook)
         self.assertEqual(self.board.get_piece(0, 0).get_color, "BLACK")
         self.assertIsInstance(self.board.get_piece(7, 0), Rook)
@@ -37,7 +55,11 @@ class TestBoard(unittest.TestCase):
         self.assertEqual(self.board.get_piece(6, 0).get_color, "WHITE")
 
     def test_get_piece(self):
-        # Verificar que get_piece devuelve la pieza correcta
+        """
+        Prueba que `get_piece` devuelva la pieza correcta en una posición específica.
+        Funcionalidad:
+        - Verifica que `get_piece` devuelva la pieza correcta (torre o peón) en las posiciones esperadas.
+        """
         rook = self.board.get_piece(0, 0)
         self.assertIsInstance(rook, Rook)
         self.assertEqual(rook.get_color, "BLACK")
@@ -51,7 +73,12 @@ class TestBoard(unittest.TestCase):
         self.assertEqual(pawn.get_color, "BLACK")
 
     def test_set_piece(self):
-        # Verificar que se puede colocar una pieza en una posición específica
+        """
+        Prueba que `set_piece` coloque correctamente una pieza en el tablero.
+        Funcionalidad:
+        - Verifica que una pieza (en este caso, un peón negro) pueda ser colocada en una posición específica del tablero.
+        - Verifica que `get_piece` devuelva la pieza correcta después de colocarla.
+        """
         new_pawn = Pawn("BLACK", self.board)
         self.board.set_piece(4, 4, new_pawn)
         piece = self.board.get_piece(4, 4)
@@ -59,6 +86,12 @@ class TestBoard(unittest.TestCase):
         self.assertEqual(piece.get_color, "BLACK")
 
     def test_move(self):
+        """
+        Prueba que `move` funcione correctamente para mover una pieza en el tablero.
+        Funcionalidad:
+        - Coloca una torre negra en la posición (0, 0) y la mueve a la posición (2, 0).
+        - Verifica que la pieza se haya movido correctamente y que la representación en cadena del tablero sea correcta después del movimiento.
+        """
         board = Board(for_test=True)
         rook = Rook(color='BLACK', board=board)
         board.set_piece(0, 0, rook)
@@ -90,6 +123,11 @@ class TestBoard(unittest.TestCase):
         )
 
     def test_get_piece_out_of_range(self):
+        """
+        Prueba que se lance una excepción `OutOfBoard` cuando se intenta acceder a una posición fuera del tablero.
+        Funcionalidad:
+        - Verifica que `get_piece` lance la excepción `OutOfBoard` al intentar acceder a coordenadas fuera del rango del tablero.
+        """
         board = Board(for_test=True)
 
         with self.assertRaises(OutOfBoard) as exc:
