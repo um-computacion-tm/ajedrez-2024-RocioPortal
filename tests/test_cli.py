@@ -2,8 +2,6 @@ import unittest
 from unittest.mock import patch, MagicMock
 from chess.game import Chess
 from chess.cli import play, main
-from chess.exceptions import InvalidMove, InvalidCoordinateInputError, GameOverException
-import sys
 
 
 class TestCli(unittest.TestCase):
@@ -12,6 +10,12 @@ class TestCli(unittest.TestCase):
     @patch('builtins.print')  # Simular print
     @patch.object(Chess, 'move')
     def test_invalid_coordinate_input(self, mock_chess_move, mock_print, mock_input):
+        """
+        Prueba que el programa maneje correctamente una entrada no numérica en las coordenadas.
+        Funcionalidad:
+        - Verifica que el programa no permita realizar un movimiento cuando se introduce una coordenada inválida.
+        - Se asegura de que `Chess.move()` no sea llamado.
+        """
         chess = Chess()
         play(chess)
         # Verifica que el programa pidió 5 entradas
@@ -25,6 +29,12 @@ class TestCli(unittest.TestCase):
     @patch('builtins.input', side_effect=['EXIT'])
     @patch('builtins.print')  # Simular print
     def test_exit_game(self, mock_print, mock_input):
+        """
+        Prueba que el juego termine cuando el jugador ingresa 'EXIT'.
+        Funcionalidad:
+        - Verifica que el programa termine correctamente al recibir el comando 'EXIT'.
+        - Comprueba que se imprima un mensaje de salida.
+        """
         with self.assertRaises(SystemExit):  # Esperamos que el juego termine con "EXIT"
             main()
         # Verifica que se imprimió el mensaje de salida
@@ -35,6 +45,12 @@ class TestCli(unittest.TestCase):
     @patch('builtins.print')  # Simular print
     @patch.object(Chess, 'move')
     def test_game_over_exception(self, mock_chess_move, mock_print, mock_input):
+        """
+        Prueba que se maneje correctamente la finalización del juego.
+        Funcionalidad:
+        - Verifica que el juego termine cuando se introduce 'EXIT'.
+        - Asegura que se imprima el mensaje de finalización del juego.
+        """
         chess = Chess()
         with self.assertRaises(SystemExit):  # Esperamos que el juego termine con "EXIT"
             play(chess)
@@ -52,7 +68,13 @@ class TestCli(unittest.TestCase):
         mock_chess_move,
         mock_print,
         mock_input,
-    ): #
+    ): 
+        """
+        Prueba un flujo de juego sin errores con entradas válidas.
+        Funcionalidad:
+        - Verifica que el juego funcione correctamente cuando el jugador introduce coordenadas válidas.
+        - Comprueba que el movimiento se realice correctamente.
+        """
         chess = Chess()
         play(chess)
         self.assertEqual(mock_input.call_count, 4)
@@ -70,7 +92,13 @@ class TestCli(unittest.TestCase):
         mock_chess_move,
         mock_print,
         mock_input,
-    ): #
+    ): 
+        """
+        Prueba un flujo con entradas inválidas y coordenadas válidas posteriores.
+        Funcionalidad:
+        - Verifica que el juego no realice un movimiento cuando se introduce una entrada inválida.
+        - Asegura que el juego maneje correctamente la entrada y continúe pidiendo coordenadas.
+        """
         chess = Chess()
         play(chess)
         self.assertEqual(mock_input.call_count, 4)
@@ -89,6 +117,12 @@ class TestCli(unittest.TestCase):
         mock_print,
         mock_input,
     ): 
+        """
+        Prueba un flujo donde la entrada inválida se introduce al final de las coordenadas.
+        Funcionalidad:
+        - Verifica que el juego maneje una entrada inválida en la coordenada de destino.
+        - Asegura que el movimiento no se realice y el juego continúe correctamente.
+        """
         chess = Chess()
         play(chess)
         self.assertEqual(mock_input.call_count, 4)

@@ -64,15 +64,15 @@ class Board:
         Retorna:
         Una cadena de texto que representa el tablero actual.
         '''
-        board_str = "  0 1 2 3 4 5 6 7\n"  # Índices de las columnas
+        board_str = "    0    1    2    3    4    5    6    7 \n"  # Índices de las columnas
         for i, row in enumerate(self.__positions__):
             board_str += str(i) + " "  # Índices de las filas
             for cell in row:
                 if cell is not None:
-                    board_str += str(cell) + " "
+                    board_str += f"  {str(cell)}  "
                 else:
-                    board_str += ". "  # Representación de las celdas vacías
-            board_str += "\n"
+                    board_str += "  .  "  # Representación de las celdas vacías
+            board_str += "\n\n"
         return board_str
 
 
@@ -90,7 +90,7 @@ class Board:
         La pieza en la posición especificada o `None` si está vacía.
         '''
         if not (
-            0 <= row < 8 or 0 <= col < 8
+            0 <= row < 8 and 0 <= col < 8
         ):
             raise OutOfBoard()
         return self.__positions__[row][col]
