@@ -1,7 +1,6 @@
 # Ajedrez
-## RocioPortal
-ajedrez-2024-RocioPortal created by GitHub Classroom
-
+## Rocio Portal (63217)
+ 
 # CircleCI
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/um-computacion-tm/ajedrez-2024-RocioPortal/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/um-computacion-tm/ajedrez-2024-RocioPortal/tree/main)
 
@@ -20,7 +19,10 @@ Este proyecto es un juego de ajedrez implementado en Python que utiliza programa
 Los jugadores alternan turnos, ingresando las coordenadas de sus movimientos. El juego finaliza cuando un jugador captura todas las piezas del oponente o decide terminar ingresando "EXIT".
 
 ## Instrucciones para ejecutar el juego:
-Asegúrate de tener instalado Docker en tu sistema. Puedes consultar la documentación oficial de Docker para su instalación: [Docker](https://docs.docker.com/get-docker/).
+Asegúrate de tener instalado  en tu sistema
+ - Python 3.x
+ - Dependencias
+ - Docker: Puedes consultar la documentación oficial de Docker para su instalación: [Docker](https://docs.docker.com/get-docker/).
 
 ### 1. Clonar el repositorio
 
@@ -28,21 +30,28 @@ Asegúrate de tener instalado Docker en tu sistema. Puedes consultar la document
 git clone https://github.com/um-computacion-tm/ajedrez-2024-RocioPortal.git
 ```
 
-### 2. Entrar al directorio del proyecto
+### 2. Instalar las dependencias
 
 ```
-cd ajedrez-2024-RocioPortal
+pip install -r requirements.txt
 ```
 
-### 3. Construir la imagen Docker
+### 3. Ejecutar el juego
+
+```
+python3 -m chess.cli
+```
+
+## Docker
+
+### 1. Construir la imagen Docker
 
 ```
 docker build -t ajedrez-2024-rocioportal .
 ```
 
-### 4. Correr los tests y el juego
+### 2. Correr los tests y el juego
 
 ```
 docker run -i ajedrez-2024-rocioportal
 ```
-
